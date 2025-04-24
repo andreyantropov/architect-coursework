@@ -11,7 +11,7 @@
 3. [Нефункциональные требования](architecture/non-functional-requirements.md)
 
 ### Аналитические материалы
-4. [Анализ стейкхолдеров](architecture/stakeholder-analytics.md)
+4. [Анализ стейкхолдеров](architecture/stakeholder-analysis.md)
 5. [Критические бизнес-сценарии](architecture/critical-business-processes.md)
 6. [Архитектурные опции и обоснование выбора](architecture/architectural-options.md)
 
