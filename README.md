@@ -6,7 +6,7 @@
 ## Навигация по артефактам
 
 ### Основные документы
-1. [Бизнес-цели и концепция](architecture/business-goals.md)
+1. [Бизнес-цели](architecture/business-goals.md)
 2. [Функциональные требования](architecture/functional-requirements)
 3. [Нефункциональные требования](architecture/non-functional-requirements.md)
 
