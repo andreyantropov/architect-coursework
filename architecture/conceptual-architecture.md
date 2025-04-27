@@ -177,7 +177,35 @@ CREATE TABLE marketing_metrics (
 ) ENGINE = MergeTree();
 ```
 
-#### 7. AI Engine (микросервис + Serverless функции)  
+#### 7. Уведомления
+**Функциональность:**
+- Отправка и управление push-уведомлениями, email/SMS и внутриприложными сообщениями
+- Интеграция с внешними системами для доставки уведомлений
+- Гарантированная доставка через очереди и механизмы повторных попыток
+
+**БД - реляционная:**
+```sql
+CREATE TABLE notification_preferences (
+  user_id UUID REFERENCES users(id),
+  notification_type VARCHAR(50),
+  enabled BOOLEAN DEFAULT TRUE,
+  delivery_time_start TIME,
+  delivery_time_end TIME,
+  PRIMARY KEY (user_id, notification_type)
+);
+
+CREATE TABLE notification_logs (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES users(id),
+  notification_type VARCHAR(50),
+  message TEXT,
+  status VARCHAR(20),
+  created_at TIMESTAMP,
+  updated_at TIMESTAMP
+);
+```
+
+#### 8. AI Engine (микросервис + Serverless функции)  
 **Функциональность:**  
 - Генерация персонализированных тренировок (на основе истории, целей, инвентаря)  
 - Предиктивная аналитика (риск травм, оптимальная нагрузка)
@@ -211,6 +239,7 @@ CREATE TABLE ai_models (
 | Тренировки (чтение)   | Документоориентированная | Гибкость для хранения JSON-треков (GPS), быстрый доступ                   |
 | Социализация          | Графовая            | Эффективные запросы связей (друзья, группы)                                |
 | Аналитика (тренировок и маркетинговая)      | Колоночная          | Оптимальна для агрегации больших объёмов данных                           |
+| Уведомления           | Реляционная + Redis       | Хранение настроек пользователей и логов, кэширование внутриприложных уведомлений                                         |
 | AI-модели/данные      | S3 + Delta Lake     | Хранение сырых данных для обучения и версионированных моделей (MLflow)                |
 | Кэш                   | Redis               | Скорость для сессий, рейтингов, уведомлений                               |
 | Логи                  | ELK + Grafana       | Быстрый поиск и анализ логов                                              |
@@ -286,32 +315,36 @@ graph TD
         E --> I[Сервис рекомендаций]
         C --> J[Сервис аналитики]
         C --> K[Сервис маркет.аналитики]
+        E --> L[Сервис уведомлений]
         
-        F --> L[(Реляционная БД)]
-        G --> M[(Реляционная БД)]
-        G --> N[(Документоор. БД)]
-        H --> O[(Графовая БД)]
-        I --> P[(Документоор. БД)]
-        J --> Q[(Колоночная БД)]
-        K --> R[(ClickHouse)]
+        F --> M[(Реляционная БД)]
+        G --> N[(Реляционная БД)]
+        G --> O[(Документоор. БД)]
+        H --> P[(Графовая БД)]
+        I --> Q[(Документоор. БД)]
+        J --> R[(Колоночная БД)]
+        K --> S[(ClickHouse)]
+        L --> T[(Реляционная БД)]
+        L --> U[Redis]
         
-        S[AI Engine] --> T[Feature Store]
-        S --> U[Model Registry]
-        S --> V[Batch Inference]
-        S --> W[Real-time API]
+        V[AI Engine] --> W[Feature Store]
+        V --> X[Model Registry]
+        V --> Y[Batch Inference]
+        V --> Z[Real-time API]
     end
     
-    X[Event Bus] --> F
-    X --> G
-    X --> H
-    X --> I
-    X --> J
-    X --> K
-    X --> S
+    AA[Event Bus] --> F
+    AA --> G
+    AA --> H
+    AA --> I
+    AA --> J
+    AA --> K
+    AA --> L
+    AA --> V
     
-    Y[Мобильное приложение] --> A
-    Z[Веб-админка] --> B
-    AA[Внешние сервисы] --> A
-    AB[Аналитические клиенты] --> C
-    AC[Маркетинг-команда] --> K
+    AB[Мобильное приложение] --> A
+    AC[Веб-админка] --> B
+    AD[Внешние сервисы] --> A
+    AE[Аналитические клиенты] --> C
+    AF[Маркетинг-команда] --> K
 ```
