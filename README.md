@@ -17,6 +17,7 @@
 9. [Нефункциональные требования](architecture/non-functional-requirements.md)
 10. [Архитектурные опции и обоснование выбора](architecture/architectural-options.md)
 11. [ADR](adr)
+12. [Сценарии использования приложения](architecture/application-usage-scenarios.md)
 
 ## Краткое описание решения
 
