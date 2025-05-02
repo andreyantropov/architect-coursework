@@ -18,6 +18,7 @@
 10. [Архитектурные опции и обоснование выбора](architecture/architectural-options.md)
 11. [ADR](adr)
 12. [Сценарии использования приложения](architecture/application-usage-scenarios.md)
+13. [Базовая архитектура](architecture/basic-architecture.md)
 
 ## Краткое описание решения
 
