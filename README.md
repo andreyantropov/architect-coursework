@@ -20,6 +20,8 @@
 12. [Сценарии использования приложения](./architecture/application-usage-scenarios/README.md) →
 13. [Базовая архитектура](./architecture/basic-architecture.md)
 14. [Основные представления](./architecture/basic-presentations/README.md) →
+15. [Анализ рисков и компромиссов архитектуры](./architecture/risks-and-trade-offs-analysis.md)
+16. [Расчёт стоимости владения системой ](./architecture/cost-of-owning.md)
 
 ## Краткое описание решения
 
