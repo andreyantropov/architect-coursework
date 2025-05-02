@@ -19,6 +19,7 @@
 11. [ADR](adr)
 12. [Сценарии использования приложения](architecture/application-usage-scenarios.md)
 13. [Базовая архитектура](architecture/basic-architecture.md)
+14. [Основные представления](architecture/basic-presentations.md)
 
 ## Краткое описание решения
 
