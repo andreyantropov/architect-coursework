@@ -3,7 +3,7 @@
 ```mermaid
 sequenceDiagram
     participant M as Мобильное приложение
-    participant A as Internal API Gateway
+    participant A as External API Gateway
     participant W as Сервис тренировок
     participant DB as PostgreSQL
     participant E as Event Bus

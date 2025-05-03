@@ -2,12 +2,14 @@
 
 ```mermaid
 sequenceDiagram
+
+    participant SG as Социализация и геймификация
     participant E as Event Bus
-    participant AI as AI Engine
     participant N as Сервис уведомлений
     participant P as Push Provider
     participant M as Мобильное приложение
 
+    SG->E: AchievementUnlocked
     E->>N: AchievementUnlocked
     N->>P: Отправка push-уведомления
     P-->>M: Уведомление

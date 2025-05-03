@@ -5,11 +5,12 @@ sequenceDiagram
     participant MK as Сервис маркетинговой аналитики
     participant DB as ClickHouse
     participant A as AI Engine
-    participant UI as Веб-админка
+    participant UI as Redash
 
     MK->>DB: SELECT metrics
     DB-->>MK: Собранные метрики
     MK->>A: Анализ эффективности A/B вариантов
+    DB-->>UI: Отчет с выводами
     A-->>UI: Отчет с выводами
 ```
 

@@ -3,10 +3,9 @@
 ```mermaid
 graph TD
     A[Мобильное приложение] -->|TLS 1.3| B[External API Gateway]
-    B -->|mTLS| C[Internal API Gateway]
-    C -->|RBAC| D[Сервис пользователей]
-    C -->|JWT| E[Сервис тренировок]
-    C -->|ACL| F[Сервис аналитики]
+    B -->|RBAC| D[Сервис пользователей]
+    B -->|JWT| E[Сервис тренировок]
+    B -->|ACL| F[Сервис аналитики]
 
     G[SIEM] -->|Audit Logs| H[(ELK Stack)]
     I[Firewall] -->|DDoS Protection| B
