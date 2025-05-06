@@ -2,12 +2,11 @@
 
 ```mermaid
 sequenceDiagram
-    participant UI as Веб-админка (маркетинг)
+    participant UI as BI-панель (Redash)
     participant GW as Internal API Gateway
     participant MK as Маркетинговый сервис
     participant DB as ClickHouse
     participant AI as AI Engine
-    participant REPORT as BI-панель (Redash)
 
     UI->>GW: GET /marketing/campaigns?test_id=AB123
     GW->>MK: Перенаправление запроса
@@ -20,7 +19,6 @@ sequenceDiagram
     AI-->>MK: Результаты анализа
     MK-->>GW: Ответ с данными
     GW-->>UI: JSON-ответ с метриками и выводами
-    UI->>REPORT: Визуализация отчёта
 ```
 
 ### Описание:

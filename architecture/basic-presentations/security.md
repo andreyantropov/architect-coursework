@@ -3,22 +3,26 @@
 ```mermaid
 graph TD
     A[Мобильное приложение] -->|TLS 1.3| B[External API Gateway]
-    B -->|RBAC| D[Сервис пользователей]
-    B -->|JWT| E[Сервис тренировок]
-    B -->|ACL| F[Сервис аналитики]
+    B -->|mTLS/JWT| D[Internal API Gateway]
+    D -->|RBAC| E[Сервис пользователей]
+    D -->|JWT| F[Сервис тренировок]
+    D -->|ACL| G[Сервис аналитики]
 
-    G[SIEM] -->|Audit Logs| H[(ELK Stack)]
-    I[Firewall] -->|DDoS Protection| B
-    J[Consent Management] -->|GDPR| K[Database Encryption]
-    L[Feature Store] -->|Anonymized Data| M[AI Training]
-    N[Session Store] -->|Encrypted Redis| O[Token Revocation List]
+    H[SIEM] -->|Audit Logs| I[(ELK Stack)]
+    J[Firewall] -->|DDoS Protection| B
+    K[Consent Management] -->|GDPR| L[Database Encryption]
+    M[Feature Store] -->|Anonymized Data| N[AI Training]
+    O[Session Store] -->|Encrypted Redis| P[Token Revocation List]
+    Q[HashiCorp Vault] -->|Secrets| R[All Services]
 ```
 
 ### Особенности реализации:
+
 - **DMZ** содержит только внешние точки входа: API Gateway, CDN, Push Service.
-- Все внутренние вызоры осуществляются через **mutual TLS (mTLS)** и **JWT**.
+- Все внутренние вызовы осуществляются через **mutual TLS (mTLS)** и **JWT**.
 - **Шифрование**: TLS 1.3 для передачи, AES-256 для хранения PII.
 - **GDPR/CCPA Compliance**: политики удаления данных, consent management.
 - **SIEM-система** коррелирует события из DMZ и внутренней сети для обнаружения аномалий.
 - **AI-модели** обучаются на **анонимизированных данных** с применением дифференциальной приватности.
 - **Сессии** и токены хранятся в зашифрованном Redis.
+- **HashiCorp Vault** управляет секретами и сертификатами.
