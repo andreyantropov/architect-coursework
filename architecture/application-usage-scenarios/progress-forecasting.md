@@ -3,17 +3,19 @@
 ```mermaid
 sequenceDiagram
     participant M as Мобильное приложение
-    participant A as Internal API Gateway
+    participant A as External API Gateway
+    participant TA as Аналитика тренировок
     participant AI as AI Engine
     participant F as Feature Store
-    participant E as Event Bus
 
     M->>A: GET /forecast
-    A->>AI: Запрос предиктивной аналитики
+    A->>TA: Запрос аналитики тренировок
+    TA->>AI: Запрос предиктивной аналитики
     AI->>F: Загрузка исторических данных
     F-->>AI: Фичи
     AI->>AI: Прогнозирование
-    AI-->>M: Прогноз прогресса
+    AI-->>TA: Прогноз прогресса
+    TA-->>M: Прогноз прогресса
 ```
 
 ### Описание:

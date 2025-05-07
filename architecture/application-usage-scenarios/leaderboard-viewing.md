@@ -3,18 +3,24 @@
 ```mermaid
 sequenceDiagram
     participant M as Мобильное приложение
-    participant A as Internal API Gateway
-    participant AN as Сервис аналитики
-    participant CH as ClickHouse
+    participant A as External API Gateway
+    participant TA as Аналитика тренировок
     participant C as Redis
+    participant CH as ClickHouse
 
     M->>A: GET /leaderboard
-    A->>AN: Запрос
-    AN->>CH: SELECT * FROM leaderboard
-    CH-->>AN: Рейтинг
-    AN->>C: Кэширование
-    AN-->>M: Лидерборд
+    A->>TA: Перенаправление запроса
+    TA->>C: Проверка кэша (leaderboard_{sport}_{region})
+    alt Кэш найден
+        C-->>TA: Возврат данных из кэша
+    else Кэш отсутствует или устарел
+        TA->>CH: SELECT * FROM leaderboard WHERE sport = ? AND region = ?
+        CH-->>TA: Рейтинг
+        TA->>C: Сохранение в кэш (с TTL)
+    end
+    TA-->>M: Лидерборд
 ```
 
 ### Описание:
-Лидерборды получаются из колоночной базы данных (ClickHouse) и кэшируются для оптимизации последующих запросов.
+
+Лидерборды получаются из колоночной базы данных и кэшируются для оптимизации последующих запросов.
