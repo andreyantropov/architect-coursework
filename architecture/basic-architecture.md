@@ -114,7 +114,7 @@ graph LR
 ```mermaid
 graph TD
     A[ЦОД-1] -->|Geo-replication| B[ЦОД-2]
-    A -->|Async backup| C[Tertiary DC]
+    A -->|Async backup| C[ЦОД-3]
     D[CDN: CloudFront+Cloudflare] --> A
     D --> B
     D --> C
